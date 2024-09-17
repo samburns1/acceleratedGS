@@ -21,6 +21,8 @@ def gs(wmin,wmax,wincrement,diag, diagsub,n, b,max_iter, tolerance):
                 else:
                     xnext[i] = (b - (diagsub * (1-w) * xnow[i-1]) - diagsub * (xnow[i+1] + w * xnext[i-1])) / diag
             # if np.all(np.abs(xnext - xnow) < tol):
+               
+            # if np.all(np.abs(xnext - xnow) < tol):
             #     print(f'solved in {k} iterations')
             #     return xnext, k, err
             xnow = xnext.copy()
@@ -63,16 +65,18 @@ wincrement = .02
 tol = 0.00001
 
 wvals, residuals, error = gs(wmin,wmax,wincrement,main_diag,sub_diag, n,b, 5000, tol)
-print("Residuals:", residuals)
-print("Error:", error)
-print('W values:', wvals)
+print("residuals:", residuals)
+print("error:", error)
+print('w values:', wvals)
 plt.subplot(1,2,1)
-plt.plot( wvals, error, 'b-o')
+plt.plot( wvals, error, 'b-o', linewidth = 3)
+plt.title('error vs omega')
 plt.xlabel('w')
 plt.ylabel('error: ||x5000-x4999||')
 
 plt.subplot(1,2,2)
-plt.plot( wvals, residuals, 'r-o')
+plt.plot( wvals, residuals, 'k-o', linewidth = 3)
+plt.title('residuals vs omega')
 plt.xlabel('w')
-plt.ylabel('Resdiuals: ||b-Ax5000||')
+plt.ylabel('resdiuals: ||b-Ax5000||')
 plt.show()
