@@ -25,13 +25,14 @@ def gs(A, b, w, max_iter, tolerance):
 
 # Creating K500
 n = 500
-main_diag = 2.01 * np.ones(n)
+main_diag = 2 * np.ones(n)
 sub_diag = -1 * np.ones(n - 1)
 K_500 = np.diag(main_diag) + np.diag(sub_diag, 1) + np.diag(sub_diag, -1)
-b = np.arange(1, n+1)
-w = 1.899
+b = np.ones((n+1))
+w = 1.989
 tol = 0.00001
 
+
 solution, iter = gs(K_500, b, w, 50000, tol)
-print("Solution:", solution)
+# print("Solution:", solution)
 print("Iterations:", iter)
