@@ -5,7 +5,7 @@ def gs(wmin,wmax,wincrement,diag, diagsub,n, b,max_iter, tolerance):
     totalpts = (wmax-wmin)/wincrement
     res = np.zeros(int(totalpts))
     err = np.zeros(int(totalpts))
-    tol = tolerance * np.ones(n)
+    #tol = tolerance * np.ones(n) 
     wvals = np.arange(wmin, wmax, wincrement)
     errNminus1 = 0
     winc = 0
@@ -20,11 +20,14 @@ def gs(wmin,wmax,wincrement,diag, diagsub,n, b,max_iter, tolerance):
                     xnext[i] = (b - diagsub * ((1-w) * xnow[i-1] + w * xnext[i-1])) / diag
                 else:
                     xnext[i] = (b - (diagsub * (1-w) * xnow[i-1]) - diagsub * (xnow[i+1] + w * xnext[i-1])) / diag
-            # if np.all(np.abs(xnext - xnow) < tol):
-               
+
+
+            # if np.all(np.abs(xnext - xnow) < tol):  #if we want a converging solution, use this code 
             # if np.all(np.abs(xnext - xnow) < tol):
             #     print(f'solved in {k} iterations')
-            #     return xnext, k, err
+            #     return xnext
+
+
             xnow = xnext.copy()
             currentres = np.zeros(n)
             for j in range(n):
@@ -41,11 +44,11 @@ def gs(wmin,wmax,wincrement,diag, diagsub,n, b,max_iter, tolerance):
                 res[winc] = np.linalg.norm(currentres)
                 err[winc] = np.linalg.norm(xnext-errNminus1)
                 wvals[winc] = w.copy()
-                print("\n----------------------")
-                print('       w:', w)
+                print("\n--------------------------------------------")
+                print('       omega (w):', w)
                 print('\n||b-Ax5000||  = ',res[winc])
                 print('||x5000-x4999|| = ',err[winc])
-                print("----------------------")
+                print("--------------------------------------------")
                 winc += 1
                 
     return wvals, res, err
@@ -71,12 +74,12 @@ print('w values:', wvals)
 plt.subplot(1,2,1)
 plt.plot( wvals, error, 'b-o', linewidth = 3)
 plt.title('error vs omega')
-plt.xlabel('w')
+plt.xlabel('omega (w)')
 plt.ylabel('error: ||x5000-x4999||')
 
 plt.subplot(1,2,2)
 plt.plot( wvals, residuals, 'k-o', linewidth = 3)
 plt.title('residuals vs omega')
-plt.xlabel('w')
+plt.xlabel('omega (w)')
 plt.ylabel('resdiuals: ||b-Ax5000||')
 plt.show()
